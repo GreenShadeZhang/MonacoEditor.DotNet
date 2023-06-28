@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonacoEditorTestApp", "MonacoEditorTestApp\MonacoEditorTestApp.csproj", "{F9632656-DE20-4E7D-B72A-289A3E8EF1A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonacoEditorTestApp", "MonacoEditorTestApp\MonacoEditorTestApp.csproj", "{F9632656-DE20-4E7D-B72A-289A3E8EF1A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonacoEditorComponent", "MonacoEditorComponent\MonacoEditorComponent.csproj", "{753CEBD9-5A45-495D-B69F-5A57218DD0A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonacoEditorComponent", "MonacoEditorComponent\MonacoEditorComponent.csproj", "{753CEBD9-5A45-495D-B69F-5A57218DD0A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TsBuild", "TsBuild", "{B614358B-ACC0-46CC-98A7-E3D9DEE5FA85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSBuildWeb", "TSBuildWeb\TSBuildWeb.csproj", "{00C40656-D136-4214-9848-806395680CAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,9 +63,28 @@ Global
 		{753CEBD9-5A45-495D-B69F-5A57218DD0A9}.Release|x64.Build.0 = Release|Any CPU
 		{753CEBD9-5A45-495D-B69F-5A57218DD0A9}.Release|x86.ActiveCfg = Release|Any CPU
 		{753CEBD9-5A45-495D-B69F-5A57218DD0A9}.Release|x86.Build.0 = Release|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Debug|x64.Build.0 = Debug|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Debug|x86.Build.0 = Debug|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Release|ARM64.Build.0 = Release|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Release|x64.ActiveCfg = Release|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Release|x64.Build.0 = Release|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Release|x86.ActiveCfg = Release|Any CPU
+		{00C40656-D136-4214-9848-806395680CAC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00C40656-D136-4214-9848-806395680CAC} = {B614358B-ACC0-46CC-98A7-E3D9DEE5FA85}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {542F4E23-EE36-49DE-8956-579E1E6DC33A}
