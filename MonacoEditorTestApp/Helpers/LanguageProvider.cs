@@ -17,7 +17,7 @@ namespace MonacoEditorTestApp.Helpers
         {
             return AsyncInfo.Run(async delegate (CancellationToken cancelationToken)
             {
-                var textUntilPosition = await document.GetValueInRangeAsync(new Range(1, 1, position.LineNumber, position.Column));
+                var textUntilPosition = await document.GetValueInRangeAsync(new Monaco.Range(1, 1, position.LineNumber, position.Column));
 
                 if (textUntilPosition.EndsWith("boo"))
                 {
@@ -55,7 +55,7 @@ namespace MonacoEditorTestApp.Helpers
             });
         }
 
-        public IAsyncOperation<CompletionItem> ResolveCompletionItemAsync(IModel model, CompletionItem item)
+        public IAsyncOperation<CompletionItem> ResolveCompletionItemAsync(IModel model, Position position, CompletionItem item)
         {
             return AsyncInfo.Run(delegate (CancellationToken cancelationToken)
             {

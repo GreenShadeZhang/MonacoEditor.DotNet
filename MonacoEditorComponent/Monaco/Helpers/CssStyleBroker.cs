@@ -1,77 +1,47 @@
-﻿using Monaco.Editor;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace Monaco.Helpers
 {
     /// <summary>
-    /// Broker to help manage CSS Styles and their usage within each CodeEditor. Lifetime managed by CodeEditor.
+    /// Singleton Broker to help us manage CSS Styles
     /// </summary>
-    internal sealed class CssStyleBroker : IDisposable
+    public sealed class CssStyleBroker
     {
         private static uint Id = 0;
+        private readonly Dictionary<string, ICssStyle> _registered = new Dictionary<string, ICssStyle>();
+        private static readonly IDictionary<CodeEditor, CssStyleBroker> instances = new Dictionary<CodeEditor, CssStyleBroker>();
 
-        // Track styles registered to this particular editor.
-        private static readonly Dictionary<uint, WeakReference<ICssStyle>> _registry = new Dictionary<uint, WeakReference<ICssStyle>>();
-
-        private static readonly Dictionary<WeakReference<CodeEditor>, HashSet<uint>> _knownStyles = new Dictionary<WeakReference<CodeEditor>, HashSet<uint>>();
-
-        private static readonly Dictionary<WeakReference<CodeEditor>, bool> _isDirty = new Dictionary<WeakReference<CodeEditor>, bool>();
-
-        private WeakReference<CodeEditor> _parent;
-
-        public CssStyleBroker(CodeEditor codeEditor)
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static CssStyleBroker()
         {
-            _parent = new WeakReference<CodeEditor>(codeEditor);
-            _knownStyles.Add(_parent, new HashSet<uint>());
-            _isDirty.Add(_parent, false);
+        }
+        private CssStyleBroker()
+        {
+        }
+        public static CssStyleBroker GetInstance(CodeEditor editor)
+        {
+            if (instances.ContainsKey(editor)) return instances[editor];
+            return instances[editor] = new CssStyleBroker();
         }
 
-        public void Dispose()
+        public static bool DetachEditor(CodeEditor editor)
         {
-            _knownStyles.Remove(_parent);
-            _isDirty.Remove(_parent);
+            if (instances.ContainsKey(editor)) return instances.Remove(editor);
+            return true;
         }
-
         /// <summary>
-        /// Returns the name for a style to use after registered. Generates a unique style name.
+        /// Returns the name for a style to use after registered.
         /// </summary>
         /// <param name="style"></param>
         /// <returns></returns>
-        public static uint Register(ICssStyle style)
+        public string Register(ICssStyle style)
         {
-            var id = Id++;
-            _registry.Add(id, new WeakReference<ICssStyle>(style));
-            return id;
-        }
-
-        public bool AssociateStyles(IModelDeltaDecoration[] decorations)
-        {
-            /// By construction we assume that decorations will not be null from the call in <see cref="CodeEditor.DeltaDecorationsHelperAsync"/>
-            bool newStyle = _isDirty[_parent]; /// Can be set in <see cref="GetStyles"/>.
-
-            _isDirty[_parent] = false; // Reset
-
-            foreach (var decoration in decorations)
-            {
-                // Add (or ignore) elements to the collection.
-                // If any Adds are new, we flag our boolean to return
-                if (decoration.Options.ClassName != null)
-                {
-                    newStyle |= _knownStyles[_parent].Add(decoration.Options.ClassName.Id);
-                }
-                if (decoration.Options.GlyphMarginClassName != null)
-                {
-                    newStyle |= _knownStyles[_parent].Add(decoration.Options.GlyphMarginClassName.Id);
-                }
-                if (decoration.Options.InlineClassName != null)
-                {
-                    newStyle |= _knownStyles[_parent].Add(decoration.Options.InlineClassName.Id);
-                }
-            }
-
-            return newStyle;
+            Id += 1;
+            var name = "generated-style-" + Id;
+            _registered.Add(name, style);
+            return name;
         }
 
         /// <summary>
@@ -81,33 +51,16 @@ namespace Monaco.Helpers
         public string GetStyles()
         {
             StringBuilder rules = new StringBuilder(100);
-            _knownStyles[_parent].RemoveWhere(id =>
+            foreach (ICssStyle css in _registered.Values)
             {
-                if (_registry[id].TryGetTarget(out var style))
-                {
-                    rules.AppendLine(style.ToCss());
-                }
-                else
-                {
-                    // Clean-up from disposed style objects
-                    foreach (var entry in _knownStyles)
-                    {
-                        if (entry.Key == _parent)
-                        {
-                            break; // Skip our current editor, as we can't remove from within the loop. Thus the return true below in this RemoveWhere clause.
-                        }
-                        entry.Value.Remove(id); // Remove from Style set
-                        _isDirty[entry.Key] = true; // Mark that editor as dirty
-                    }
-                    _registry.Remove(id); // Remove the style completely from our known world as it's gone.
-
-                    return true; // Also remove this entry from our own set.
-                }
-
-                return false; // Default, we're just using this as a dumb loop, but that we can remove from when needed above.
-            });
-
+                rules.AppendLine(css.ToCss());
+            }
             return rules.ToString();
+        }
+
+        public static string WrapCssClassName(ICssStyle style, string inner)
+        {
+            return string.Format(".{0} {{ {1} }}", style.Name, inner);
         }
     }
 }

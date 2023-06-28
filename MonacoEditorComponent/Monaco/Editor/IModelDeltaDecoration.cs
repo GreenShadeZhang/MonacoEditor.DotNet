@@ -1,5 +1,9 @@
-﻿using Monaco.Helpers;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Monaco.Editor
 {
@@ -11,7 +15,7 @@ namespace Monaco.Editor
         [JsonProperty("options")]
         public IModelDecorationOptions Options { get; private set; }
 
-        [JsonProperty("range"), JsonConverter(typeof(InterfaceToClassConverter<IRange, Range>))]
+        [JsonProperty("range")]
         public IRange Range { get; private set; }
 
         public IModelDeltaDecoration(IRange range, IModelDecorationOptions options)

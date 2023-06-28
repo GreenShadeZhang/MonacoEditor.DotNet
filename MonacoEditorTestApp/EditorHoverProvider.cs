@@ -6,7 +6,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using Windows.Foundation;
 
-namespace MonacoEditorTestApp.Helpers
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+
+namespace MonacoEditorTestApp
 {
     class EditorHoverProvider : HoverProvider
     {
@@ -22,7 +24,7 @@ namespace MonacoEditorTestApp.Helpers
                         "*Hit* - press the keys following together.",
                         "Some **more** text is here.",
                         "And a [link](https://www.github.com/)."
-                    }, new Range(position.LineNumber, word.StartColumn, position.LineNumber, word.EndColumn));
+                    }, new Monaco.Range(position.LineNumber, position.Column, position.LineNumber, position.Column + 5));
                 }
 
                 return default(Hover);

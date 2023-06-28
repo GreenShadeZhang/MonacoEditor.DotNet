@@ -1,26 +1,19 @@
-﻿using Newtonsoft.Json;
-
-namespace Monaco.Helpers
+﻿namespace Monaco.Helpers
 {
-    [JsonConverter(typeof(CssStyleConverter))]
     public sealed class CssGlyphStyle : ICssStyle
     {
-        [JsonIgnore]
         public System.Uri GlyphImage { get; set; }
 
-        public uint Id { get; }
+        public string Name { get; private set; }
 
-        public string Name { get; }
-
-        public CssGlyphStyle()
+        public CssGlyphStyle(CodeEditor editor)
         {
-            Id = CssStyleBroker.Register(this);
-            Name = "generated-style-" + Id;
+            Name = CssStyleBroker.GetInstance(editor).Register(this);
         }
 
         public string ToCss()
         {
-            return this.WrapCssClassName(string.Format("background: url(\"{0}\");", GlyphImage.AbsoluteUri));
+            return CssStyleBroker.WrapCssClassName(this, string.Format("background: url(\"{0}\");", GlyphImage.AbsoluteUri));
         }
     }
 }
