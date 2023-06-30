@@ -45,13 +45,18 @@ namespace Monaco
         public CodeEditor()
         {
             DefaultStyleKey = typeof(CodeEditor);
-            Options = new StandaloneEditorConstructionOptions();
+            Options = new StandaloneEditorConstructionOptions()
+            {
+                Minimap = new EditorMinimapOptions()
+                {
+                    Enabled = true
+                }
+            };
             DiffOptions = new DiffEditorConstructionOptions();
             if (Options != null)
             {
                 // Set Pass-Thru Properties
                 Options.GlyphMargin = HasGlyphMargin;
-
                 // Register for changes
                 //Options.PropertyChanged += Options_PropertyChanged;
                 //DiffOptions.PropertyChanged += DiffOptions_PropertyChanged;

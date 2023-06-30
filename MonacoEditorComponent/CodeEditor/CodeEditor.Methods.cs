@@ -176,7 +176,7 @@ namespace Monaco
             {
                 // Send Command to Modify Decorations
                 // IMPORTANT: Need to cast to object here as we want this to be a single array object passed as a parameter, not a list of parameters to expand.
-                return ExecuteScriptAsync("updateDecorations", (object)newDecorationsAdjust);
+                //return ExecuteScriptAsync("updateDecorations", (object)newDecorationsAdjust);
             }).AsAsyncAction();
         }
     }
