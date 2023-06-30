@@ -45,13 +45,16 @@ namespace Monaco
         public CodeEditor()
         {
             DefaultStyleKey = typeof(CodeEditor);
+            Options = new StandaloneEditorConstructionOptions();
+            DiffOptions = new DiffEditorConstructionOptions();
             if (Options != null)
             {
                 // Set Pass-Thru Properties
                 Options.GlyphMargin = HasGlyphMargin;
 
                 // Register for changes
-                Options.PropertyChanged += Options_PropertyChanged;
+                //Options.PropertyChanged += Options_PropertyChanged;
+                //DiffOptions.PropertyChanged += DiffOptions_PropertyChanged;
             }
 
             // Initialize this here so property changed event will fire and register collection changed event.
@@ -64,48 +67,54 @@ namespace Monaco
 
         private async void Options_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!(sender is StandaloneEditorConstructionOptions options)) return;
-            if (e.PropertyName == nameof(StandaloneEditorConstructionOptions.Language))
+            if (_initialized)
             {
-                await ExecuteScriptAsync("updateLanguage", options.Language);
-                if (CodeLanguage != options.Language) CodeLanguage = options.Language;
+                if (!(sender is StandaloneEditorConstructionOptions options)) return;
+                if (e.PropertyName == nameof(StandaloneEditorConstructionOptions.Language))
+                {
+                    await ExecuteScriptAsync("updateLanguage", options.Language);
+                    if (CodeLanguage != options.Language) CodeLanguage = options.Language;
+                }
+                if (e.PropertyName == nameof(StandaloneEditorConstructionOptions.GlyphMargin))
+                {
+                    if (HasGlyphMargin != options.GlyphMargin) options.GlyphMargin = HasGlyphMargin;
+                }
+                if (e.PropertyName == nameof(StandaloneEditorConstructionOptions.ReadOnly))
+                {
+                    if (ReadOnly != options.ReadOnly) options.ReadOnly = ReadOnly;
+                }
+                await ExecuteScriptAsync("updateOptions", options);
             }
-            if (e.PropertyName == nameof(StandaloneEditorConstructionOptions.GlyphMargin))
-            {
-                if (HasGlyphMargin != options.GlyphMargin) options.GlyphMargin = HasGlyphMargin;
-            }
-            if (e.PropertyName == nameof(StandaloneEditorConstructionOptions.ReadOnly))
-            {
-                if (ReadOnly != options.ReadOnly) options.ReadOnly = ReadOnly;
-            }
-            await ExecuteScriptAsync("updateOptions", options);
         }
 
 
         private async void DiffOptions_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is not DiffEditorConstructionOptions options || !IsDiffViewMode)
+            if (_initialized)
             {
-                return;
-            }
-
-            if (e.PropertyName == nameof(DiffEditorConstructionOptions.GlyphMargin))
-            {
-                if (HasGlyphMargin != options.GlyphMargin)
+                if (sender is not DiffEditorConstructionOptions options || !IsDiffViewMode)
                 {
-                    options.GlyphMargin = HasGlyphMargin;
+                    return;
                 }
-            }
 
-            if (e.PropertyName == nameof(DiffEditorConstructionOptions.ReadOnly))
-            {
-                if (ReadOnly != options.ReadOnly)
+                if (e.PropertyName == nameof(DiffEditorConstructionOptions.GlyphMargin))
                 {
-                    options.ReadOnly = ReadOnly;
+                    if (HasGlyphMargin != options.GlyphMargin)
+                    {
+                        options.GlyphMargin = HasGlyphMargin;
+                    }
                 }
-            }
 
-            await ExecuteScriptAsync("updateDiffOptions", options);
+                if (e.PropertyName == nameof(DiffEditorConstructionOptions.ReadOnly))
+                {
+                    if (ReadOnly != options.ReadOnly)
+                    {
+                        options.ReadOnly = ReadOnly;
+                    }
+                }
+
+                await ExecuteScriptAsync("updateDiffOptions", options);
+            }
         }
 
         private async void CodeEditor_Loaded(object sender, RoutedEventArgs e)
@@ -116,7 +125,7 @@ namespace Monaco
                 _model = new ModelHelper(this);
 
                 Options.PropertyChanged += Options_PropertyChanged;
-
+                DiffOptions.PropertyChanged += DiffOptions_PropertyChanged;
                 Decorations.VectorChanged += Decorations_VectorChanged;
                 Markers.VectorChanged += Markers_VectorChanged;
 
@@ -240,7 +249,6 @@ namespace Monaco
             {
                 try
                 {
-                    await Task.Delay(2000);
                     return await _view.RunScriptAsync<T>(script, member, file, line);
                 }
                 catch (Exception e)

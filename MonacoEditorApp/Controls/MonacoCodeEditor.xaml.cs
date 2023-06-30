@@ -347,43 +347,43 @@ namespace DevToys.UI.Controls
             {
                 _MonacoCodeEditorCore.Loading -= MonacoCodeEditorCore_Loading;
 
-                _MonacoCodeEditorCore.HasGlyphMargin = false;
-                _MonacoCodeEditorCore.Options.GlyphMargin = false;
-                _MonacoCodeEditorCore.Options.MouseWheelZoom = false;
-                _MonacoCodeEditorCore.Options.OverviewRulerBorder = false;
-                _MonacoCodeEditorCore.Options.ScrollBeyondLastLine = false;
-                _MonacoCodeEditorCore.Options.FontLigatures = true;
-                _MonacoCodeEditorCore.Options.SnippetSuggestions = SnippetSuggestions.None;
-                _MonacoCodeEditorCore.Options.CodeLens = false;
-                _MonacoCodeEditorCore.Options.QuickSuggestions = false;
-                _MonacoCodeEditorCore.Options.WordBasedSuggestions = false;
-                _MonacoCodeEditorCore.Options.Minimap = new EditorMinimapOptions()
-                {
-                    Enabled = false
-                };
-                _MonacoCodeEditorCore.Options.Hover = new EditorHoverOptions()
-                {
-                    Enabled = false
-                };
+                //_MonacoCodeEditorCore.HasGlyphMargin = false;
+                //_MonacoCodeEditorCore.Options.GlyphMargin = false;
+                //_MonacoCodeEditorCore.Options.MouseWheelZoom = false;
+                //_MonacoCodeEditorCore.Options.OverviewRulerBorder = false;
+                //_MonacoCodeEditorCore.Options.ScrollBeyondLastLine = false;
+                //_MonacoCodeEditorCore.Options.FontLigatures = true;
+                //_MonacoCodeEditorCore.Options.SnippetSuggestions = SnippetSuggestions.None;
+                //_MonacoCodeEditorCore.Options.CodeLens = false;
+                //_MonacoCodeEditorCore.Options.QuickSuggestions = false;
+                //_MonacoCodeEditorCore.Options.WordBasedSuggestions = false;
+                //_MonacoCodeEditorCore.Options.Minimap = new EditorMinimapOptions()
+                //{
+                //    Enabled = false
+                //};
+                //_MonacoCodeEditorCore.Options.Hover = new EditorHoverOptions()
+                //{
+                //    Enabled = false
+                //};
 
-                _MonacoCodeEditorCore.DiffOptions.GlyphMargin = false;
-                _MonacoCodeEditorCore.DiffOptions.MouseWheelZoom = false;
-                _MonacoCodeEditorCore.DiffOptions.OverviewRulerBorder = false;
-                _MonacoCodeEditorCore.DiffOptions.ScrollBeyondLastLine = false;
-                _MonacoCodeEditorCore.DiffOptions.FontLigatures = true;
-                _MonacoCodeEditorCore.DiffOptions.SnippetSuggestions = SnippetSuggestions.None;
-                _MonacoCodeEditorCore.DiffOptions.CodeLens = false;
-                _MonacoCodeEditorCore.DiffOptions.QuickSuggestions = false;
-                _MonacoCodeEditorCore.DiffOptions.Minimap = new EditorMinimapOptions()
-                {
-                    Enabled = false
-                };
-                _MonacoCodeEditorCore.DiffOptions.Hover = new EditorHoverOptions()
-                {
-                    Enabled = false
-                };
+                //_MonacoCodeEditorCore.DiffOptions.GlyphMargin = false;
+                //_MonacoCodeEditorCore.DiffOptions.MouseWheelZoom = false;
+                //_MonacoCodeEditorCore.DiffOptions.OverviewRulerBorder = false;
+                //_MonacoCodeEditorCore.DiffOptions.ScrollBeyondLastLine = false;
+                //_MonacoCodeEditorCore.DiffOptions.FontLigatures = true;
+                //_MonacoCodeEditorCore.DiffOptions.SnippetSuggestions = SnippetSuggestions.None;
+                //_MonacoCodeEditorCore.DiffOptions.CodeLens = false;
+                //_MonacoCodeEditorCore.DiffOptions.QuickSuggestions = false;
+                //_MonacoCodeEditorCore.DiffOptions.Minimap = new EditorMinimapOptions()
+                //{
+                //    Enabled = false
+                //};
+                //_MonacoCodeEditorCore.DiffOptions.Hover = new EditorHoverOptions()
+                //{
+                //    Enabled = false
+                //};
 
-                ApplySettings();
+                //ApplySettings();
             }
         }
 
@@ -396,13 +396,13 @@ namespace DevToys.UI.Controls
                 _MonacoCodeEditorCore.Options.LineNumbers = LineNumbersType.On ;
                 _MonacoCodeEditorCore.Options.RenderLineHighlight = RenderLineHighlight.All ;
                 _MonacoCodeEditorCore.Options.RenderWhitespace = RenderWhitespace.All;
-                _MonacoCodeEditorCore.Options.FontFamily ="";
+                _MonacoCodeEditorCore.Options.FontFamily = "Cascadia Mono";
                 _MonacoCodeEditorCore.DiffOptions.WordWrapMinified = true;
                 _MonacoCodeEditorCore.DiffOptions.WordWrap = WordWrap.On;
                 _MonacoCodeEditorCore.DiffOptions.LineNumbers =  LineNumbersType.On;
                 _MonacoCodeEditorCore.DiffOptions.RenderLineHighlight = RenderLineHighlight.All;
                 _MonacoCodeEditorCore.DiffOptions.RenderWhitespace =  RenderWhitespace.All ;
-                _MonacoCodeEditorCore.DiffOptions.FontFamily = "";
+                _MonacoCodeEditorCore.DiffOptions.FontFamily = "Cascadia Mono";
             }
         }
 
