@@ -46,6 +46,7 @@ namespace Monaco.Extensions
             {
                 try
                 {
+                    await Task.Delay(3000);
                     return await RunScriptHelperAsync<T>(_view, fullscript);
                 }
                 catch (Exception e)
@@ -59,7 +60,7 @@ namespace Monaco.Extensions
                 {
                     try
                     {
-                        await Task.Delay(1000);
+                        await Task.Delay(3000);
                         await RunScriptHelperAsync<T>(_view, fullscript);
                     }
                     catch (Exception e)

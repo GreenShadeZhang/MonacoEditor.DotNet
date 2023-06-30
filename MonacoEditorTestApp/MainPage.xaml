@@ -2,76 +2,117 @@
     x:Class="MonacoEditorTestApp.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MonacoEditorTestApp"
+    xmlns:controls="using:DevToys.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MonacoEditorTestApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:monaco="using:Monaco"
-    mc:Ignorable="d"
-    DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="RootGrid">
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <monaco:CodeEditor x:Name="Editor"
-                           Grid.Row="0"
-                           Grid.Column="1"
-                           TabIndex="0"
-                           HasGlyphMargin="True"
-                           CodeLanguage="csharp"
-                           KeyDown="Editor_KeyDown"
-                           Text="{x:Bind CodeContent, Mode=TwoWay}"
-                           Options="{x:Bind options, Mode=OneWay}">
-        </monaco:CodeEditor>
-        <TextBlock Text="{x:Bind CodeContent, Mode=OneWay}" Grid.Row="1" Grid.Column="1"/>
-        <TextBox x:Name="TextEditor"
-                 AcceptsReturn="True"
-                 ScrollViewer.VerticalScrollBarVisibility="Visible"
-                 Grid.Row="2"
-                 Grid.Column="1"
-                 TabIndex="1"
-                 Text="{x:Bind CodeContent, Mode=OneTime}"
-                 >
-        </TextBox>
-        <TextBox Text="{Binding ElementName=Editor, Path=SelectedText, Mode=TwoWay}" Grid.Row="3" Grid.Column="1"
-                 AcceptsReturn="True"/>
-        <TextBlock Text="{Binding ElementName=Editor, Path=SelectedRange}" Grid.Row="4" Grid.Column="1"/>
-        <ScrollViewer Grid.Row="0" Grid.RowSpan="5" IsTabStop="False">
+        <monaco:CodeEditor
+            x:Name="Editor"
+            Grid.Row="0"
+            Grid.Column="1"
+            CodeLanguage="csharp"
+            HasGlyphMargin="True"
+            KeyDown="Editor_KeyDown"
+            Options="{x:Bind options, Mode=OneWay}"
+            TabIndex="0"
+            Text="{x:Bind CodeContent, Mode=TwoWay}" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{x:Bind CodeContent, Mode=OneWay}" />
+        <TextBox
+            x:Name="TextEditor"
+            Grid.Row="2"
+            Grid.Column="1"
+            AcceptsReturn="True"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            TabIndex="1"
+            Text="{x:Bind CodeContent, Mode=OneTime}" />
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            AcceptsReturn="True"
+            Text="{Binding ElementName=Editor, Path=SelectedText, Mode=TwoWay}" />
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="1"
+            Text="{Binding ElementName=Editor, Path=SelectedRange}" />
+
+        <!--<controls:MonacoCodeEditor
+            x:Name="InputCodeEditor"
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            CodeLanguage="json"
+            Header="test"/>-->
+        <ScrollViewer
+            Grid.Row="0"
+            Grid.RowSpan="5"
+            IsTabStop="False">
             <ItemsControl IsTabStop="False">
-                <ComboBox Header="Theme" SelectionChanged="ComboBoxTheme_SelectionChanged" SelectedIndex="0">
+                <ComboBox
+                    Header="Theme"
+                    SelectedIndex="0"
+                    SelectionChanged="ComboBoxTheme_SelectionChanged">
                     <x:String>System</x:String>
                     <x:String>Light</x:String>
                     <x:String>Dark</x:String>
                 </ComboBox>
-                <Button Content="Set Text" Click="ButtonSetText_Click" TabIndex="2"/>
-                <Button Content="Set Selected Text" Click="ButtonSetSelectedText_Click"/>
-                <Button Content="Reveal Position 10, 5 In Center" Click="ButtonRevealPositionInCenter_Click" />
-                <Button Content="Highlight Range 3,1-10" Click="ButtonHighlightRange_Click" />
-                <Button Content="Highlight Line 2 &amp; 4" Click="ButtonHighlightLine_Click" />
-                <Button Content="Clear Highlights" Click="ButtonClearHighlights_Click" />
-                <Button Content="Code Folding" Click="ButtonFolding_Click" />
-                <Button Content="Minimap" Click="ButtonMinimap_Click" />
-                <Button Content="Change Language" Click="ButtonChangeLanguage_Click" />
-                <Button Content="Set Marker" Click="ButtonSetMarker_Click" />
-                <Button Content="Load &amp; Set Pos" Click="LoadAndSet_Click" />
-                <Button Content="Set Readonly" Click="ButtonSetReadonly_Click" />
-                <Button Content="Run Script" Click="ButtonRunScript_Click" />
-                <Line X1="0" X2="100" Y1="0" Y2="0" StrokeThickness="1" Stroke="{ThemeResource AppBarSeparatorForegroundThemeBrush}"/>
-                <Button x:Name="HideButton" Content="Hide" Click="HideButton_Click"/>
-                <Button x:Name="DetachButton" Content="Detach" Click="DetachButton_Click"/>
-                <Button x:Name="RemoveButton" Content="Remove" Click="RemoveButton_Click"/>
+                <Button
+                    Click="ButtonSetText_Click"
+                    Content="Set Text"
+                    TabIndex="2" />
+                <Button Click="ButtonSetSelectedText_Click" Content="Set Selected Text" />
+                <Button Click="ButtonRevealPositionInCenter_Click" Content="Reveal Position 10, 5 In Center" />
+                <Button Click="ButtonHighlightRange_Click" Content="Highlight Range 3,1-10" />
+                <Button Click="ButtonHighlightLine_Click" Content="Highlight Line 2 &amp; 4" />
+                <Button Click="ButtonClearHighlights_Click" Content="Clear Highlights" />
+                <Button Click="ButtonFolding_Click" Content="Code Folding" />
+                <Button Click="ButtonMinimap_Click" Content="Minimap" />
+                <Button Click="ButtonChangeLanguage_Click" Content="Change Language" />
+                <Button Click="ButtonSetMarker_Click" Content="Set Marker" />
+                <Button Click="LoadAndSet_Click" Content="Load &amp; Set Pos" />
+                <Button Click="ButtonSetReadonly_Click" Content="Set Readonly" />
+                <Button Click="ButtonRunScript_Click" Content="Run Script" />
+                <Line
+                    Stroke="{ThemeResource AppBarSeparatorForegroundThemeBrush}"
+                    StrokeThickness="1"
+                    X1="0"
+                    X2="100"
+                    Y1="0"
+                    Y2="0" />
+                <Button
+                    x:Name="HideButton"
+                    Click="HideButton_Click"
+                    Content="Hide" />
+                <Button
+                    x:Name="DetachButton"
+                    Click="DetachButton_Click"
+                    Content="Detach" />
+                <Button
+                    x:Name="RemoveButton"
+                    Click="RemoveButton_Click"
+                    Content="Remove" />
                 <CheckBox x:Name="AllowWeb" IsChecked="True">Allow Opening Uris</CheckBox>
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="FrameworkElement">
-                        <Setter Property="Margin" Value="8,16,0,0"/>
+                        <Setter Property="Margin" Value="8,16,0,0" />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>

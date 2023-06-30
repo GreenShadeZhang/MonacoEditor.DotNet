@@ -5,10 +5,11 @@ using System;
 using System.Linq;
 using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml;
+using Monaco.Monaco.Editor;
 
 namespace Monaco
 {
-    partial class CodeEditor : IParentAccessorAcceptor
+    public partial class CodeEditor : IParentAccessorAcceptor
     {
         public bool IsSettingValue { get; set; }
 
@@ -105,6 +106,97 @@ namespace Monaco
                     value.PropertyChanged += editor.Options_PropertyChanged;
             }
         }));
+
+
+        public static DependencyProperty IsDiffViewModeProperty { get; }
+            = DependencyProperty.Register(
+                nameof(IsDiffViewMode),
+                typeof(bool),
+                typeof(CodeEditor),
+                new PropertyMetadata(false));
+
+        public bool IsDiffViewMode
+        {
+            get => (bool)GetValue(IsDiffViewModeProperty);
+            set => SetValue(IsDiffViewModeProperty, value);
+        }
+
+        public static DependencyProperty DiffLeftTextProperty { get; }
+            = DependencyProperty.Register(
+                nameof(DiffLeftText),
+                typeof(string),
+                typeof(CodeEditor),
+                new PropertyMetadata(
+                    string.Empty,
+                    (d, e) =>
+                    {
+                        var codeEditor = (CodeEditor)d;
+                        if (!codeEditor.IsSettingValue && codeEditor.IsDiffViewMode)
+                        {
+                            _ = codeEditor.ExecuteScriptAsync("updateDiffContent", new object[] { e.NewValue.ToString(), codeEditor.DiffRightText });
+                        }
+                    }));
+
+        public string DiffLeftText
+        {
+            get => (string)GetValue(DiffLeftTextProperty);
+            set => SetValue(DiffLeftTextProperty, value);
+        }
+
+        public static DependencyProperty DiffRightTextProperty { get; }
+            = DependencyProperty.Register(
+                nameof(DiffRightText),
+                typeof(string),
+                typeof(CodeEditor),
+                new PropertyMetadata(
+                    string.Empty,
+                    (d, e) =>
+                    {
+                        var codeEditor = (CodeEditor)d;
+                        if (!codeEditor.IsSettingValue && codeEditor.IsDiffViewMode)
+                        {
+                            _ = codeEditor.ExecuteScriptAsync("updateDiffContent", new object[] { codeEditor.DiffLeftText, e.NewValue.ToString() });
+                        }
+                    }));
+
+        public string DiffRightText
+        {
+            get => (string)GetValue(DiffRightTextProperty);
+            set => SetValue(DiffRightTextProperty, value);
+        }
+
+
+        public static DependencyProperty DiffOptionsProperty { get; }
+            = DependencyProperty.Register(
+                nameof(DiffOptions),
+                typeof(DiffEditorConstructionOptions),
+                typeof(CodeEditor),
+                new PropertyMetadata(
+                    null,
+                    (d, e) =>
+                    {
+                        if (d is CodeEditor editor)
+                        {
+                            if (e.OldValue is DiffEditorConstructionOptions oldValue)
+                            {
+                                oldValue.PropertyChanged -= editor.DiffOptions_PropertyChanged;
+                            }
+
+                            if (e.NewValue is DiffEditorConstructionOptions value)
+                            {
+                                value.PropertyChanged += editor.DiffOptions_PropertyChanged;
+                            }
+                        }
+                    }));
+
+        /// <summary>
+        /// Get or set the CodeEditorCore Options. Node: Will overwrite CodeLanguage.
+        /// </summary>
+        public DiffEditorConstructionOptions DiffOptions
+        {
+            get => (DiffEditorConstructionOptions)GetValue(DiffOptionsProperty);
+            set => SetValue(DiffOptionsProperty, value);
+        }
 
         /// <summary>
         /// Get or Set the CodeEditor Text.

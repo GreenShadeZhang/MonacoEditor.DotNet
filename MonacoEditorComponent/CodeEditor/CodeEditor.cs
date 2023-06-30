@@ -81,6 +81,33 @@ namespace Monaco
             await ExecuteScriptAsync("updateOptions", options);
         }
 
+
+        private async void DiffOptions_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is not DiffEditorConstructionOptions options || !IsDiffViewMode)
+            {
+                return;
+            }
+
+            if (e.PropertyName == nameof(DiffEditorConstructionOptions.GlyphMargin))
+            {
+                if (HasGlyphMargin != options.GlyphMargin)
+                {
+                    options.GlyphMargin = HasGlyphMargin;
+                }
+            }
+
+            if (e.PropertyName == nameof(DiffEditorConstructionOptions.ReadOnly))
+            {
+                if (ReadOnly != options.ReadOnly)
+                {
+                    options.ReadOnly = ReadOnly;
+                }
+            }
+
+            await ExecuteScriptAsync("updateDiffOptions", options);
+        }
+
         private async void CodeEditor_Loaded(object sender, RoutedEventArgs e)
         {
             // Do this the 2nd time around.
@@ -213,11 +240,12 @@ namespace Monaco
             {
                 try
                 {
+                    await Task.Delay(2000);
                     return await _view.RunScriptAsync<T>(script, member, file, line);
                 }
                 catch (Exception e)
                 {
-                    InternalException?.Invoke(this, e);
+                    //InternalException?.Invoke(this, e);
                 }
             }
             else

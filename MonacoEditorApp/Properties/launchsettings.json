@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "MonacoEditorApp (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "MonacoEditorApp (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
